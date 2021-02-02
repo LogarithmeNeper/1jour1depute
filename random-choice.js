@@ -40,5 +40,3 @@ function randomChoice() {
         return randomId;
     }
 }
-
-console.log(isThereAnIdLeft())
