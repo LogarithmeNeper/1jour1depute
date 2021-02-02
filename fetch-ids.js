@@ -6,14 +6,14 @@ const writeFile = promisify(fs.writeFile);
 
 /**
  * @param {Document} document
- * @returns {string[]}
+ * @returns {number[]}
  */
 function extractIds(document) {
   const regex = /\(num_dept\)\/(\d+)$/;
   return [...document.querySelectorAll('table a')]
     .map(anchor => anchor.getAttribute('href').match(regex))
     .filter(x => x != null)
-    .map(match => match[1]);
+    .map(match => +match[1]);
 }
 
 /**
@@ -28,7 +28,7 @@ function generateUrls(increment = 500, nbMax = 33) {
 }
 
 /**
- * @returns {Promise<string[]>}
+ * @returns {Promise<number[]>}
  */
 async function fetchAllIds() {
   const urls = generateUrls();
@@ -44,16 +44,16 @@ async function fetchAllIds() {
  * Main function
  */
 async function main() {
-  console.log('Fetching ids…');
+  console.log('Fetching ids');
   const ids = await fetchAllIds();
-  console.log('Done.');
+  console.log('↳ Done.');
 
   console.log();
 
   const path = './ids.json';
-  console.log(`Writing ${ids.length} ids to ${path}…`);
+  console.log(`Writing ${ids.length} ids to ${path}`);
   await writeFile(path, JSON.stringify(ids));
-  console.log('Done.');
+  console.log('↳ Done.');
 }
 
 main().catch(console.error);
