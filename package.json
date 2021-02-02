@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fetch-ids": "node fetch-ids.json"
+    "fetch-ids": "node fetch-ids.js"
   },
   "repository": {
     "type": "git",
