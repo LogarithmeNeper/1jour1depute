@@ -1,43 +1,59 @@
-const got = require("got");
-const {Window} = require("happy-dom");
-const fs = require("fs");
+const { fetchHtml, parseHtml, flatten } = require('./utils.js');
 
-async function fetchHtml(url) {
-  const response = await got(url);
-  return response.body;
-}
+const { promisify } = require('util');
+const fs = require('fs');
+const writeFile = promisify(fs.writeFile);
 
-function parseHtml(html) {
-  const window = new Window();
-  window.document.body.innerHTML = html
-  return window.document;
-}
-
+/**
+ * @param {Document} document
+ * @returns {string[]}
+ */
 function extractIds(document) {
-  const regex = /\(num_dept\)\/(\d+)$/
+  const regex = /\(num_dept\)\/(\d+)$/;
   return [...document.querySelectorAll('table a')]
-  .map(anchor => anchor.getAttribute('href').match(regex))
-  .filter(x => x != null)
-  .map(match => match[1]);
+    .map(anchor => anchor.getAttribute('href').match(regex))
+    .filter(x => x != null)
+    .map(match => match[1]);
 }
 
-function generateUrls(increment=500, nbMax=33) {
-  const offsets = Array.from({length: nbMax}, (_, i) => 500*i);
+/**
+ * @param {number} increment
+ * @param {number} nbMax
+ * @returns {string[]}
+ */
+function generateUrls(increment = 500, nbMax = 33) {
+  const offsets = Array.from({length: nbMax}, (_, i) => increment * i);
   const urls = offsets.map(offset => `https://www2.assemblee-nationale.fr/sycomore/resultats/(offset)/${offset}/`);
   return urls;
 }
 
-async function main() {
+/**
+ * @returns {Promise<string[]>}
+ */
+async function fetchAllIds() {
   const urls = generateUrls();
-  const promises = urls.map(url => 
-    fetchHtml(url)
+  const promises = urls.map(url => fetchHtml(url)
     .then(parseHtml)
     .then(extractIds)
-  )
+  );
   const results = await Promise.all(promises);
-  return Array.prototype.concat([], ...results);
+  return flatten(results);
 }
 
-main().then(ids => {
-  fs.writeFile("./ids.json", JSON.stringify(ids), () => console.log("OK!"))
-});
+/**
+ * Main function
+ */
+async function main() {
+  console.log('Fetching ids…');
+  const ids = await fetchAllIds();
+  console.log('Done.');
+
+  console.log();
+
+  const path = './ids.json';
+  console.log(`Writing ${ids.length} ids to ${path}…`);
+  await writeFile(path, JSON.stringify(ids));
+  console.log('Done.');
+}
+
+main().catch(console.error);
