@@ -1,0 +1,23 @@
+{
+  "name": "1jour1depute",
+  "version": "1.0.0",
+  "description": "Creating a Twitter bot to publish a tweet a day displaying information on one random French MP.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LogarithmeNeper/1jour1depute.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LogarithmeNeper/1jour1depute/issues"
+  },
+  "homepage": "https://github.com/LogarithmeNeper/1jour1depute#readme",
+  "dependencies": {
+    "got": "^11.8.1",
+    "happy-dom": "^2.3.0"
+  }
+}
