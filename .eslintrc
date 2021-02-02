@@ -1,0 +1,45 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2017
+  },
+  "env": {
+    "amd": true,
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "semi": "error",
+    "yoda": [
+      "error",
+      "never",
+      {
+        "exceptRange": true
+      }
+    ],
+    "indent": [
+      "error",
+      2,
+      {
+        "SwitchCase": 1
+      }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "no-multiple-empty-lines": "off",
+    "consistent-return": "off",
+    "no-else-return": "off",
+    "no-restricted-syntax": "off",
+    "class-methods-use-this": "off",
+    "no-shadow": "off",
+    "no-plusplus": "off",
+    "no-use-before-define": "off",
+    "no-unused-expressions": "off",
+    "default-case": "off"
+  }
+}
