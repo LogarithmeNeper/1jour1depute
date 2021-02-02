@@ -23,7 +23,6 @@ function randomChoice() {
 
     
     if(jsonOutput.includes(randomId)) {
-        console.log('Already used.');
         randomChoice()
     }
     else {
@@ -32,5 +31,3 @@ function randomChoice() {
         return randomId;
     }
 }
-
-randomChoice();
