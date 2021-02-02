@@ -16,6 +16,14 @@ const jsonInput = require('./ids.json');
 const jsonOutput = require('./used-ids.json');
 
 /**
+ * Checks if there is still one id left.
+ * Can be done lazily thanks to the check in randomChoice().
+ */
+function isThereAnIdLeft() {
+    return !(jsonInput.length==jsonOutput.length)
+}
+
+/**
  * Functions that returns a random element from the ids.
  */
 function randomChoice() {
@@ -32,3 +40,5 @@ function randomChoice() {
         return randomId;
     }
 }
+
+console.log(isThereAnIdLeft())
