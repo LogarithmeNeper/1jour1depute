@@ -4,7 +4,8 @@
   "description": "Creating a Twitter bot to publish a tweet a day displaying information on one random French MP.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "fetch-ids": "node fetch-ids.json"
   },
   "repository": {
     "type": "git",
