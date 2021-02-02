@@ -1,3 +1,14 @@
+/**
+ * This file fetches all the ids.
+ * To execute : 
+ * node fetch-ids.js
+ * 
+ * Authors : Corentin Forler, Pierre Sibut-Bourde, 2021.
+ */
+        
+/**
+ * Practical requirements.
+ */
 const { fetchHtml, parseHtml, flatten } = require('./utils.js');
 
 const { promisify } = require('util');
@@ -5,10 +16,17 @@ const fs = require('fs');
 const writeFile = promisify(fs.writeFile);
 
 /**
+ * Function that extracts ids from the document with a regular expression. See below.
+ * Returns an Array of strings.
  * @param {Document} document
  * @returns {number[]}
  */
 function extractIds(document) {
+  /**
+   * This regular expression matches anything with (num_dept)/$id/.
+   * In the database, ids are stored in urls of this type. 
+   * We therefore catch this expression in the href tag, and gets only $id. 
+   */
   const regex = /\(num_dept\)\/(\d+)$/;
   return [...document.querySelectorAll('table a')]
     .map(anchor => anchor.getAttribute('href').match(regex))
@@ -17,6 +35,9 @@ function extractIds(document) {
 }
 
 /**
+ * Function to generate the URLs of the database.
+ * Constructs with an Array of integers (0, 500, ..., 32*500) by default an array of strings.
+ * This array are the links to directly request on the website of the Assemblée Nationale.
  * @param {number} increment
  * @param {number} nbMax
  * @returns {string[]}
@@ -28,6 +49,11 @@ function generateUrls(increment = 500, nbMax = 33) {
 }
 
 /**
+ * Main function.
+ * 1/ Generates URLs.
+ * 2/ Gets an array of Promises on URLs.
+ * 3/ Awaits the directions of a general Promise, stores in a constant.
+ * 4/ Concatenates and flattens to a single array of strings (represents all the ids of the URLs)
  * @returns {Promise<number[]>}
  */
 async function fetchAllIds() {
