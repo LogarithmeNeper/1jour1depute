@@ -25,7 +25,7 @@ function extractIds(document) {
   /**
    * This regular expression matches anything with (num_dept)/$id/.
    * In the database, ids are stored in urls of this type. 
-   * We therefore catch this expression in the href tag, and gets only $id. 
+   * We therefore catch this expression in the href tag, and we only retain $id as a number. 
    */
   const regex = /\(num_dept\)\/(\d+)$/;
   return [...document.querySelectorAll('table a')]
@@ -53,7 +53,7 @@ function generateUrls(increment = 500, nbMax = 33) {
  * 1/ Generates URLs.
  * 2/ Gets an array of Promises on URLs.
  * 3/ Awaits the directions of a general Promise, stores in a constant.
- * 4/ Concatenates and flattens to a single array of strings (represents all the ids of the URLs)
+ * 4/ Concatenates and flattens to a single array of numbers (represents all the ids of the URLs)
  * @returns {Promise<number[]>}
  */
 async function fetchAllIds() {
