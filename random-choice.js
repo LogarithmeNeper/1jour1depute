@@ -20,7 +20,7 @@ const jsonOutput = require('./used-ids.json');
  * Can be done lazily thanks to the check in randomChoice().
  */
 function isThereAnIdLeft() {
-    return !(jsonInput.length==jsonOutput.length)
+    return !(jsonInput.length==jsonOutput.length);
 }
 
 /**
@@ -32,7 +32,7 @@ function randomChoice() {
 
     
     if(jsonOutput.includes(randomId)) {
-        randomChoice()
+        randomChoice();
     }
     else {
         jsonOutput.push(randomId);
