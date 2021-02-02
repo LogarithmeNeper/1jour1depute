@@ -1,5 +1,6 @@
 /**
- * This file randomly chooses an id from the local database in a json file.
+ * This file randomly chooses an id from the local database in a json file, and uses it
+ * if it has not been seen before.
  * To execute : 
  * node random-choice.js
  * 
