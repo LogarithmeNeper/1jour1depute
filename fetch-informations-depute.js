@@ -56,7 +56,6 @@ async function getDeputeAsObject(id) {
  * @returns {string}
  */
 function getNomComplet(document) {
-  // bug in happy-dom: can't select <h1> elements
   const el = document.querySelector('#haut-contenu-page > article > div.titre-bandeau-bleu > h1');
   return el.textContent;
 }
@@ -142,18 +141,6 @@ function getDocument(id) {
 }
 
 /**
- * Functions that extracts the URL of the main image.
- * @param {Document} document
- */
-function getImageUrl2(document) {
-  const regex = /(.*)sycomore(.*)$/;
-  return [...document.querySelectorAll('img')]
-    .map(elem => elem.src.match(regex))
-    .filter(m => m != null)
-    .map(m => m[0]);
-}
-
-/**
  * Functions that directly guess the URL of the main image.
  * @param {Document} document
  */
@@ -161,5 +148,4 @@ function getImageUrl(id) {
   return `https://www2.assemblee-nationale.fr/static/sycomore/jpg/${id}.jpg`;
 }
 
-
-getDeputeAsObject(516).then(console.log);
+module.exports = {getDeputeAsObject};
