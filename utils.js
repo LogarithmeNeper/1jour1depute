@@ -1,5 +1,5 @@
 const got = require('got');
-const { Window } = require('happy-dom');
+const { JSDOM } = require('jsdom');
 
 /**
  * @param {string} url
@@ -15,9 +15,7 @@ module.exports.fetchHtml = async (url) => {
  * @returns {Document} document
  */
 module.exports.parseHtml = (html) => {
-  const window = new Window();
-  window.document.body.innerHTML = html;
-  return window.document;
+  return (new JSDOM(html)).window.document;
 };
 
 /**
@@ -27,3 +25,10 @@ module.exports.parseHtml = (html) => {
 module.exports.flatten = (arrays) => {
   return Array.prototype.concat(...arrays);
 };
+
+/**
+ * The zip() function takes arrays and aggregates them in a list of tuples
+ * @param {any[][]} rows
+ * @returns {any[][]}
+ */
+module.exports.zip = (...rows) => rows[0].map((_, c) => rows.map(row => row[c]));
