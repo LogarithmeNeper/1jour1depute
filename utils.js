@@ -1,5 +1,5 @@
 const got = require('got');
-const { Window } = require('happy-dom');
+const { JSDOM } = require('jsdom');
 
 /**
  * @param {string} url
@@ -15,9 +15,7 @@ module.exports.fetchHtml = async (url) => {
  * @returns {Document} document
  */
 module.exports.parseHtml = (html) => {
-  const window = new Window();
-  window.document.body.innerHTML = html;
-  return window.document;
+  return (new JSDOM(html)).window.document;
 };
 
 /**
