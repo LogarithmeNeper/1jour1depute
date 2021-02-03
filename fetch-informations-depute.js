@@ -15,7 +15,10 @@ const { promisify } = require('util');
 const fs = require('fs');
 const writeFile = promisify(fs.writeFile);
 
-
+/**
+ * Function that gets the document body given an id.
+ * @param {number} id 
+ */
 function getDocument(id) {
     const url = `https://www2.assemblee-nationale.fr/sycomore/fiche/(num_dept)/${id}`;
     return fetchHtml(url).then(parseHtml);
