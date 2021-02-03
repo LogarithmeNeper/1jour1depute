@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/LogarithmeNeper/1jour1depute#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "got": "^11.8.1",
     "jsdom": "^16.4.0"
   }
