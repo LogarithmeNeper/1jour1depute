@@ -25,3 +25,10 @@ module.exports.parseHtml = (html) => {
 module.exports.flatten = (arrays) => {
   return Array.prototype.concat(...arrays);
 };
+
+/**
+ * The zip() function takes arrays and aggregates them in a list of tuples
+ * @param {any[][]} rows
+ * @returns {any[][]}
+ */
+module.exports.zip = (...rows) => rows[0].map((_, c) => rows.map(row => row[c]));
