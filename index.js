@@ -1,23 +1,22 @@
 const got = require('got');
+const { randomChoice } = require('./random-choice');
 const { getDeputeAsObject } = require('./fetch-informations-depute');
 const { randomChoice } = require('./random-choice');
 const { getUploadClient, uploadImage } = require('./api');
+const { API } = require('./api');
 
 async function main() {
   const id = 416; // randomChoice()
   const depute = await getDeputeAsObject(id);
-  console.log(depute);
-  const imageData = (await got(depute.imageUrl)).body;
-  console.log(imageData.length);
+  // const imageData = (await got(depute.imageUrl)).body; // TODO: check exists
 
-  const uploadClient = getUploadClient();
+  const tweetTexts = deputeToTweets(depute);
+  const tweets = tweetTexts.map(text => ({ text }));
 
-  const response = await uploadImage(uploadClient, Buffer.from(imageData));
-  console.log(JSON.stringify(response, null, 2));
+  console.log(tweets);
 
-  // tweetThread(getClient(), [
-  //   { text: 'ceci est un test', images: [imageData] },
-  // ]);
+  const api = API();
+  // await api.tweetThread(tweets);
 }
 
 main().catch(err => {
