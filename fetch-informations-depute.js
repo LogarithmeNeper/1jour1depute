@@ -28,6 +28,7 @@ const { fetchHtml, parseHtml, zip } = require('./utils.js');
  * anneeNaissance?: number
  * anneeDeces?: number
  * mandats?: Mandat[]
+ * imageUrl?: string
  * }} Depute
  */
 
@@ -47,6 +48,7 @@ async function getDeputeAsObject(id) {
     anneeNaissance,
     anneeDeces,
     mandats,
+    imageUrl: getImageUrl(id),
   };
   return depute;
 }
@@ -148,4 +150,4 @@ function getImageUrl(id) {
   return `https://www2.assemblee-nationale.fr/static/sycomore/jpg/${id}.jpg`;
 }
 
-module.exports = {getDeputeAsObject};
+module.exports = { getDeputeAsObject };
