@@ -8,6 +8,7 @@
 function trouverNombreDansOrdinal(s) {
   if (s.match(/prem/ui)) { return 1; }
   else if (s.match(/deux/ui)) { return 2; }
+  else if (s.match(/second/ui)) { return 2; }
   else if (s.match(/trois/ui)) { return 3; }
   else if (s.match(/quatr/ui)) { return 4; }
   else if (s.match(/cinq/ui)) { return 5; }
@@ -22,10 +23,10 @@ function formatOrdinal(num, genre) {
   switch (num) {
     case 1:
     case 'I':
-      return genre === 'F' ? '1ère' : '1er';
+      return genre === 'F' ? `${num}ère` : `${num}er`;
     case 2:
     case 'II':
-      return genre === 'F' ? '2nde' : '2nd';
+      return genre === 'F' ? `${num}nde` : `${num}nd`;
     default: return `${num}e`;
   }
 }
@@ -49,10 +50,10 @@ function numToSmallRoman(num) {
 function formatRegime(regime) {
   if (regime.match(/République/ui)) {
     const numeroRepublique = trouverNombreDansOrdinal(regime);
-    return `${formatOrdinal(numToSmallRoman(numeroRepublique))} Rép.`;
+    return `${formatOrdinal(numToSmallRoman(numeroRepublique), 'F')} Rép.`;
   } else if (regime.match(/Restauration/ui)) {
     const numeroRestauration = trouverNombreDansOrdinal(regime);
-    return `${formatOrdinal(numToSmallRoman(numeroRestauration))} Rest.`;
+    return `${formatOrdinal(numToSmallRoman(numeroRestauration), 'F')} Rest.`;
   } else {
     return regime;
   }
