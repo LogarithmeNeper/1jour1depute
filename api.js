@@ -1,3 +1,9 @@
+/**
+ * This makes the link between back-end and front-end via Twit-lite and Twitter API.
+ *
+ * Authors : Corentin Forler, Pierre Sibut-Bourde, 2021.
+ */
+
 const Twitter = require('twitter-lite');
 require('dotenv').config();
 

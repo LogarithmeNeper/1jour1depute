@@ -1,3 +1,9 @@
+/**
+ * This file gets a string on which tweets are based.
+ * 
+ * Authors : Corentin Forler, 2021.
+ */
+
 /** @typedef {import("./fetch-informations-depute").Depute} Depute */
 /** @typedef {Depute['mandats'][number]} Mandat */
 

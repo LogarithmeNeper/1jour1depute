@@ -1,3 +1,9 @@
+/**
+ * Entry point of the program.
+ * 
+ * Authors : Corentin Forler, Pierre Sibut-Bourde, 2021.
+ */
+
 const got = require('got');
 const { randomChoice } = require('./random-choice');
 const { getDeputeAsObject } = require('./fetch-informations-depute');

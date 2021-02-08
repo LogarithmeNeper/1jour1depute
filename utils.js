@@ -1,3 +1,9 @@
+/**
+ * Useful functions.
+ * 
+ * Authors : Corentin Forler, Pierre Sibut-Bourde, 2021.
+ */
+
 const got = require('got');
 const { JSDOM } = require('jsdom');
 
