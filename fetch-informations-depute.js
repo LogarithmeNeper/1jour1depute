@@ -56,7 +56,7 @@ async function getDeputeAsObject(id) {
 }
 
 /**
- * @param {Document} document 
+ * @param {Document} document
  * @returns {boolean}
  */
 function hasBio(document) {

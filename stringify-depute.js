@@ -1,6 +1,6 @@
 /**
  * This file gets a string on which tweets are based.
- * 
+ *
  * Authors : Corentin Forler, 2021.
  */
 
@@ -111,9 +111,6 @@ function datesDeVieToString(depute) {
   return ''; // else missing data
 }
 
-function getSource(depute) {
-  return 'Source '+(depute.hasBio ? 'et biographie(s) ' : '')+': '+depute.bdUrl;
-}
 
 /**
  * @param {Depute} depute
@@ -173,7 +170,10 @@ function deputeToString(depute) {
     }
   }
 
-  str+=getSource(depute)+'\n';
+  str += '\n\n';
+  str += `Source ${depute.hasBio ? 'et biographie(s) ' : ''}: ${depute.bdUrl}`;
+  str += '\n';
+
   return str;
 }
 
