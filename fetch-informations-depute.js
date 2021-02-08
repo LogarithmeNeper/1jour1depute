@@ -49,6 +49,7 @@ async function getDeputeAsObject(id) {
     anneeDeces,
     mandats,
     imageUrl: getImageUrl(id),
+    bdUrl: `https://www2.assemblee-nationale.fr/sycomore/fiche/(num_dept)/${id}`,
   };
   return depute;
 }
