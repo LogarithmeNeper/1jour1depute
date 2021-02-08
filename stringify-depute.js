@@ -111,6 +111,10 @@ function datesDeVieToString(depute) {
   return ''; // else missing data
 }
 
+function getSource(depute) {
+  return 'Source '+(depute.hasBio ? 'et biographie(s) ' : '')+': '+depute.bdUrl;
+}
+
 /**
  * @param {Depute} depute
  * @returns {string}
@@ -169,6 +173,7 @@ function deputeToString(depute) {
     }
   }
 
+  str+=getSource(depute)+'\n';
   return str;
 }
 

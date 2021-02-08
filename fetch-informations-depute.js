@@ -50,8 +50,17 @@ async function getDeputeAsObject(id) {
     mandats,
     imageUrl: getImageUrl(id),
     bdUrl: `https://www2.assemblee-nationale.fr/sycomore/fiche/(num_dept)/${id}`,
+    hasBio: hasBio(document),
   };
   return depute;
+}
+
+/**
+ * @param {Document} document 
+ * @returns {boolean}
+ */
+function hasBio(document) {
+  return document.querySelector('#bio') == null;
 }
 
 /**
