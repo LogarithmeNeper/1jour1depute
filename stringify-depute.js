@@ -106,7 +106,7 @@ function datesDeVieToString(depute) {
   if (depute.anneeDeces) { // est mort
     return `${depute.anneeNaissance}–${depute.anneeDeces}`;
   } else if (depute.anneeNaissance) { // a une année de naissance
-    return `${depute.anneeNaissance}`;
+    return `${depute.anneeNaissance}–`;
   }
   return ''; // else missing data
 }
