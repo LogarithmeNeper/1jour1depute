@@ -49,8 +49,18 @@ async function getDeputeAsObject(id) {
     anneeDeces,
     mandats,
     imageUrl: getImageUrl(id),
+    bdUrl: `https://www2.assemblee-nationale.fr/sycomore/fiche/(num_dept)/${id}`,
+    hasBio: hasBio(document),
   };
   return depute;
+}
+
+/**
+ * @param {Document} document
+ * @returns {boolean}
+ */
+function hasBio(document) {
+  return document.querySelector('#bio') == null;
 }
 
 /**
@@ -87,7 +97,7 @@ function getMandats(document) {
     const mandat = extractMandatFromElement(el);
     mandats.push(mandat);
   }
-  return mandats.sort((a, b) => b.anneeDebut - a.anneeDebut);
+  return mandats.sort((a, b) => b.anneeDebut - a.anneeDebut); // dans l'ordre antichronologique
 }
 
 /**
