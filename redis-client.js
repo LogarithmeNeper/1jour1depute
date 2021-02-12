@@ -20,6 +20,7 @@ function RedisClient() {
   });
 
   const api = {
+    client,
     get: promisify(client.get).bind(client),
     set: promisify(client.set).bind(client),
   };
