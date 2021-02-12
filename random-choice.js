@@ -26,7 +26,7 @@ function pickRandom(array) {
  * @returns {number | undefined}
  */
 async function randomChoice() {
-  const redisClient = RedisClient();
+  const redisClient = await RedisClient();
 
   const allIds = JSON.parse((await redisClient.get('all-ids')) || '[]');
   const usedIds = JSON.parse((await redisClient.get('used-ids')) || '[]');

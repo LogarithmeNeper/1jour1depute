@@ -2,29 +2,45 @@ const redis = require('redis');
 const { promisify } = require('util');
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
-function RedisClient() {
-  const client = redis.createClient(process.env.REDIS_URL, {
-    tls: {
-      rejectUnauthorized: false,
-    },
-  });
+async function RedisClient() {
+  return new Promise((resolve, reject) => {
+    const client = redis.createClient(process.env.REDIS_URL, {
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
 
-  client.on('error', (error) => {
-    console.error('REDIS ERROR');
-    console.error(error);
-    process.exit(42);
-  });
 
-  client.on('warning', () => {
-    console.error('client will emit warning when password was set but none is needed and if a deprecated option/function/similar is used.');
-  });
+    client.on('connect', () => {
+      console.error('REDIS CONNECTED');
+      resolve({
+        get: promisify(client.get).bind(client),
+        set: promisify(client.set).bind(client),
+      });
+    });
 
-  const api = {
-    client,
-    get: promisify(client.get).bind(client),
-    set: promisify(client.set).bind(client),
-  };
-  return api;
+    client.on('end', () => {
+      console.error('REDIS END');
+      // reject('end');
+    });
+
+    client.on('disconnected', () => {
+      console.error('REDIS DISCONNECTED');
+      reject('disconnected');
+    });
+
+    client.on('error', (error) => {
+      console.error('REDIS ERROR');
+      console.error(error);
+      reject('error');
+      process.exit(42);
+    });
+
+    client.on('warning', () => {
+      console.error('REDIS WARNING');
+      // reject('warning');
+      console.error('client will emit warning when password was set but none is needed and if a deprecated option/function/similar is used.');
+    });
+  });
 }
-
 module.exports = { RedisClient };
