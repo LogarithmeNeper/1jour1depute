@@ -10,15 +10,7 @@
 /**
  * Practical requirements.
  */
-const fs = require('fs');
-const { RedisClient } = require('redis');
-
-/**
- * Checks if there is still one id left.
- */
-function isThereAnIdLeft() {
-  return allIds.length !== usedIds.length;
-}
+const { RedisClient } = require('./redis-client.js');
 
 /**
  * @param {Array} array
@@ -49,7 +41,7 @@ async function randomChoice() {
 
   // Update the list of used ids
   usedIds.push(randomId);
-  redisClient.set('used-ids', JSON.stringify(usedIds));
+  await redisClient.set('used-ids', JSON.stringify(usedIds)); // await that writing is done in the DB.
 
   return randomId;
 }
