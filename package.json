@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch-ids-fs": "node fetch-ids.js fs",
     "fetch-ids-redis": "node fetch-ids.js redis",
-    "tweet-one": "node index.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
