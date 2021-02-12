@@ -27,9 +27,9 @@ function pickRandom(array) {
  */
 async function randomChoice() {
   const redisClient = RedisClient();
-  
-  const allIds = JSON.parse((await redisClient.get('all-ids'))??'[]');
-  const usedIds = JSON.parse((await redisClient.get('used-ids'))??'[]');
+
+  const allIds = JSON.parse((await redisClient.get('all-ids')) || '[]');
+  const usedIds = JSON.parse((await redisClient.get('used-ids')) || '[]');
 
   const nonUsedIds = allIds.filter(x => !usedIds.includes(x));
   if (nonUsedIds.length === 0) {
