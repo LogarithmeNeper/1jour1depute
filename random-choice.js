@@ -43,6 +43,7 @@ async function randomChoice() {
   usedIds.push(randomId);
   await redisClient.set('used-ids', JSON.stringify(usedIds)); // await that writing is done in the DB.
 
+  redisClient.quit();
   return randomId;
 }
 

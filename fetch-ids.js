@@ -99,6 +99,7 @@ async function mainRedis() {
   console.log(`Writing ${ids.length} ids to redis key '${key}'`);
   await redisClient.set(key, JSON.stringify(ids));
   console.log('↳ Done.');
+  redisClient.quit();
 }
 
 

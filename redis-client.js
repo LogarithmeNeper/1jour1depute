@@ -9,10 +9,6 @@ async function RedisClient() {
 
     client.on('connect', () => {
       console.error('REDIS CONNECTED');
-      resolve({
-        get: promisify(client.get).bind(client),
-        set: promisify(client.set).bind(client),
-      });
     });
 
     client.on('ready', () => {
@@ -20,6 +16,7 @@ async function RedisClient() {
       resolve({
         get: promisify(client.get).bind(client),
         set: promisify(client.set).bind(client),
+        quit: promisify(client.quit).bind(client),
       });
     });
 
