@@ -10,7 +10,7 @@
 /**
  * Practical requirements.
  */
-const { RedisClient } = require('./redis-client.js');
+const { RedisClient } = require('./redis-client');
 
 /**
  * @param {Array} array

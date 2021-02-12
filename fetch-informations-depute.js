@@ -9,7 +9,7 @@
 /**
  * Practical requirements.
  */
-const { fetchHtml, parseHtml, zip } = require('./utils.js');
+const { fetchHtml, parseHtml, zip } = require('./utils');
 
 /**
  * @typedef {{

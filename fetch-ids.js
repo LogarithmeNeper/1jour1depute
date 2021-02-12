@@ -13,8 +13,8 @@
 const { promisify } = require('util');
 const fs = require('fs');
 
-const { fetchHtml, parseHtml, flatten } = require('./utils.js');
-const { RedisClient } = require('./redis-client.js');
+const { fetchHtml, parseHtml, flatten } = require('./utils');
+const { RedisClient } = require('./redis-client');
 const writeFile = promisify(fs.writeFile);
 
 /**
