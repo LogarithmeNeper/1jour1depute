@@ -97,7 +97,7 @@ async function mainRedis() {
   const key = 'all-ids';
   console.log(`Writing ${ids.length} ids to redis key '${key}'`);
   const redisClient = RedisClient();
-  await redisClient.set(path, JSON.stringify(ids));
+  await redisClient.set(key, JSON.stringify(ids));
   console.log('↳ Done.');
 }
 
