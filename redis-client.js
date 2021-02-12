@@ -4,12 +4,13 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 async function RedisClient() {
   return new Promise((resolve, reject) => {
+    console.error('redis.createClient');
     const client = redis.createClient(process.env.REDIS_URL, {
       tls: {
         rejectUnauthorized: false,
       },
     });
-
+    console.error(client);
 
     client.on('connect', () => {
       console.error('REDIS CONNECTED');
