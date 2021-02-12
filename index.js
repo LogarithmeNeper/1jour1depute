@@ -40,7 +40,16 @@ async function main() {
   console.log('done.');
 }
 
-main().catch(err => {
-  console.error('ERROR');
-  console.error(err);
-});
+const now = new Date();
+const target = new Date();
+
+target.setUTCHours(10, 0, 0);
+const dt = ((+now)-(+target))/1000;
+const shouldRun = Math.abs(dt)<=300;
+
+if(shouldRun) {
+  main().catch(err => {
+    console.error('ERROR');
+    console.error(err);
+  });
+}
