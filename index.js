@@ -10,31 +10,34 @@ const { deputeToTweets } = require('./stringify-depute');
 const { API } = require('./api');
 
 async function main() {
-  console.log('<main>', 'running...');
+  const dryRun = (process.argv[2] === 'dry-run');
+  console.log('running...');
+  if (dryRun) {
+    console.log('DRY RUN');
+  }
 
-  const id = await randomChoice();
+  const id = await randomChoice(dryRun);
   if (id == null) {
-    console.error('<main>', 'id is undefined');
+    console.error('id is undefined');
     return;
   }
-  console.log('<main>', 'id:', id);
+  console.log('id:', id);
 
   const depute = await getDeputeAsObject(id);
-  console.log('<main>', 'depute:', depute);
   // const imageData = (await got(depute.imageUrl)).body; // TODO: check exists
 
   const tweetTexts = deputeToTweets(depute);
-  console.log('<main>', 'tweetTexts:', tweetTexts);
   const tweets = tweetTexts.map(text => ({ text }));
-  console.log('<main>', 'tweets:', tweets);
 
-  const api = API();
-  console.log('<main>', 'api:', api);
+  if (!dryRun) {
+    const api = API();
+    await api.tweetThread(tweets);
+  } else {
+    console.log(depute);
+    console.log(tweets);
+  }
 
-  console.log('<main>', 'tweeting…');
-  await api.tweetThread(tweets);
-
-  console.log('<main>', 'done.');
+  console.log('done.');
 }
 
 main().catch(err => {

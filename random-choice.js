@@ -25,7 +25,7 @@ function pickRandom(array) {
  * Functions that returns a random element from the ids.
  * @returns {number | undefined}
  */
-async function randomChoice() {
+async function randomChoice(readOnly = false) {
   const redisClient = await RedisClient();
 
   const allIds = JSON.parse((await redisClient.get('all-ids')) || '[]');
@@ -40,8 +40,10 @@ async function randomChoice() {
   const randomId = pickRandom(nonUsedIds);
 
   // Update the list of used ids
-  usedIds.push(randomId);
-  await redisClient.set('used-ids', JSON.stringify(usedIds)); // await that writing is done in the DB.
+  if (readOnly) {
+    usedIds.push(randomId);
+    await redisClient.set('used-ids', JSON.stringify(usedIds)); // await that writing is done in the DB.
+  }
 
   redisClient.quit();
   return randomId;

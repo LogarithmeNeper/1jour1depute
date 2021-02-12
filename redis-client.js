@@ -5,7 +5,6 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 async function RedisClient() {
   return new Promise((resolve, reject) => {
     const client = redis.createClient(process.env.REDIS_URL);
-    console.error('redis.createClient ok');
 
     client.on('connect', () => {
       console.error('REDIS CONNECTED');
