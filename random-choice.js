@@ -11,9 +11,7 @@
  * Practical requirements.
  */
 const fs = require('fs');
-
-const allIds = require('./ids.json');
-const usedIds = require('./used-ids.json');
+const { RedisClient } = require('redis');
 
 /**
  * Checks if there is still one id left.
@@ -35,7 +33,12 @@ function pickRandom(array) {
  * Functions that returns a random element from the ids.
  * @returns {number | undefined}
  */
-function randomChoice() {
+async function randomChoice() {
+  const redisClient = RedisClient();
+  
+  const allIds = JSON.parse((await redisClient.get('all-ids'))??'[]');
+  const usedIds = JSON.parse((await redisClient.get('used-ids'))??'[]');
+
   const nonUsedIds = allIds.filter(x => !usedIds.includes(x));
   if (nonUsedIds.length === 0) {
     return;
@@ -46,7 +49,7 @@ function randomChoice() {
 
   // Update the list of used ids
   usedIds.push(randomId);
-  fs.writeFileSync('./used-ids.json', JSON.stringify(usedIds));
+  redisClient.set('used-ids', JSON.stringify(usedIds));
 
   return randomId;
 }
