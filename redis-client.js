@@ -24,6 +24,11 @@ async function RedisClient() {
       // reject('end');
     });
 
+    client.on('reconnecting', () => {
+      console.error('REDIS RECONNECTING');
+      // reject('end');
+    });
+
     client.on('disconnected', () => {
       console.error('REDIS DISCONNECTED');
       reject('disconnected');
