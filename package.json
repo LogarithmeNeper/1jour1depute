@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "fetch-ids": "node fetch-ids.js"
+    "fetch-ids-fs": "node fetch-ids.js fs",
+    "fetch-ids-redis": "node fetch-ids.js redis",
+    "tweet-one": "node index.js"
   },
   "repository": {
     "type": "git",

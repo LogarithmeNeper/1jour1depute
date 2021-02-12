@@ -19,10 +19,8 @@ async function main() {
   const tweetTexts = deputeToTweets(depute);
   const tweets = tweetTexts.map(text => ({ text }));
 
-  console.log(id, depute, tweets);
-
-  // const api = API();
-  // await api.tweetThread(tweets);
+  const api = API();
+  await api.tweetThread(tweets);
 }
 
 main().catch(err => {
