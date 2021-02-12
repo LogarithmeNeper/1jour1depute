@@ -5,7 +5,7 @@
  */
 
 const Twitter = require('twitter-lite');
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 /**
  * @returns {Twitter.default.prototype}
