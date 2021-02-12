@@ -1,18 +1,20 @@
 /**
  * This file fetches all the ids.
- * To execute : 
+ * To execute :
  * node fetch-ids.js
- * 
+ *
  * Authors : Corentin Forler, Pierre Sibut-Bourde, 2021.
  */
-        
+
 /**
  * Practical requirements.
  */
-const { fetchHtml, parseHtml, flatten } = require('./utils.js');
 
 const { promisify } = require('util');
 const fs = require('fs');
+
+const { fetchHtml, parseHtml, flatten } = require('./utils.js');
+const { RedisClient } = require('./redis-client.js');
 const writeFile = promisify(fs.writeFile);
 
 /**
@@ -24,8 +26,8 @@ const writeFile = promisify(fs.writeFile);
 function extractIds(document) {
   /**
    * This regular expression matches anything with (num_dept)/$id/.
-   * In the database, ids are stored in urls of this type. 
-   * We therefore catch this expression in the href tag, and we only retain $id as a number. 
+   * In the database, ids are stored in urls of this type.
+   * We therefore catch this expression in the href tag, and we only retain $id as a number.
    */
   const regex = /\(num_dept\)\/(\d+)$/;
   return [...document.querySelectorAll('table a')]
@@ -77,9 +79,34 @@ async function main() {
   console.log();
 
   const path = './ids.json';
-  console.log(`Writing ${ids.length} ids to ${path}`);
+  console.log(`Writing ${ids.length} ids to file ${path}`);
   await writeFile(path, JSON.stringify(ids));
   console.log('↳ Done.');
 }
 
-main().catch(console.error);
+/**
+ * Main function using redis
+ */
+async function mainRedis() {
+  console.log('Fetching ids');
+  const ids = await fetchAllIds();
+  console.log('↳ Done.');
+
+  console.log();
+
+  const key = 'all-ids';
+  console.log(`Writing ${ids.length} ids to redis key '${key}'`);
+  const redisClient = RedisClient();
+  await redisClient.set(path, JSON.stringify(ids));
+  console.log('↳ Done.');
+}
+
+
+if (process.argv[2] === 'redis') {
+  mainRedis().catch(console.error);
+} else if (process.argv[2] === 'fs') {
+  main().catch(console.error);
+} else {
+  console.log('Usage: node fetch-ids.js <storage>');
+  console.log('       <storage>: redis | fs');
+}
