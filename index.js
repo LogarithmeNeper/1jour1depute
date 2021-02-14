@@ -9,8 +9,15 @@ const { getDeputeAsObject } = require('./fetch-informations-depute');
 const { deputeToTweets } = require('./stringify-depute');
 const { API } = require('./api');
 
-async function main() {
-  const dryRun = (process.argv[2] === 'dry-run');
+const now = new Date();
+const target = new Date();
+target.setUTCHours(10, 0, 0);
+
+const dt = ((+now) - (+target)) / 1000;
+const shouldRun = Math.abs(dt) <= (5 * 60);
+const dryRun = (process.argv[2] === 'dry-run');
+
+async function main(dryRun = false) {
   console.log('running...');
   if (dryRun) {
     console.log('DRY RUN');
@@ -40,15 +47,8 @@ async function main() {
   console.log('done.');
 }
 
-const now = new Date();
-const target = new Date();
-
-target.setUTCHours(10, 0, 0);
-const dt = ((+now)-(+target))/1000;
-const shouldRun = Math.abs(dt)<=300;
-
-if(shouldRun) {
-  main().catch(err => {
+if (shouldRun || dryRun) {
+  main(dryRun).catch(err => {
     console.error('ERROR');
     console.error(err);
   });
