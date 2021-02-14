@@ -107,7 +107,14 @@ function getMandats(document) {
  */
 function extractMandatFromElement(el) {
   /** @type {Mandat} */
-  const mandat = {};
+  const mandat = {
+    anneeDebut: '',
+    anneeFin: '',
+    regimePolitique: '',
+    legislature: '',
+    departement: '',
+    groupe: '',
+  };
 
   const terms = [...el.querySelectorAll('dt')];
   const defs = [...el.querySelectorAll('dd')];
