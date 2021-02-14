@@ -60,7 +60,7 @@ async function getDeputeAsObject(id) {
  * @returns {boolean}
  */
 function hasBio(document) {
-  return document.querySelector('#bio') == null;
+  return document.querySelector('[href="#bio"]') !== null;
 }
 
 /**
