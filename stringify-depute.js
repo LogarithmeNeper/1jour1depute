@@ -65,7 +65,7 @@ function formatRegime(regime) {
   }
 }
 
-function formatInstance(instance) {
+function formatInstance(instance='') {
   instance = instance.replace(/Assemblée nationale/ui, 'A.N.'); // https://www.youtube.com/watch?v=jwMFYcXjTbQ
   instance = instance.replace(/Chambre des députés des départements/ui, 'Chambre des députés des dépt.');
   instance = instance.replace(/Convention nationale/ui, 'Conv. nat.');
