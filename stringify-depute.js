@@ -187,7 +187,7 @@ function deputeToString(depute) {
  * @param {string} s The string to measure
  */
 function glyphCount(s) {
-  return [...s.replace('•', '12')].length;
+  return [...s.replace(/https?:\S+/g, 'U'.repeat(23)).replace('•', '12')].length;
 }
 
 /**
