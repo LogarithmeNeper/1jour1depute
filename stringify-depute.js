@@ -29,7 +29,7 @@ function formatOrdinal(num, genre) {
   switch (num) {
     case 1:
     case 'I':
-      return genre === 'F' ? `${num}ère` : `${num}er`;
+      return genre === 'F' ? `${num}re` : `${num}er`;
     case 2:
     case 'II':
       return genre === 'F' ? `${num}nde` : `${num}nd`;
@@ -53,28 +53,33 @@ function numToSmallRoman(num) {
   return str;
 }
 
-function formatRegime(regime) {
+function formatRegime(regime = '') {
+  const fmt = (abrev, genre) => {
+    const numero = trouverNombreDansOrdinal(regime);
+    return `${formatOrdinal(numToSmallRoman(numero), genre)} ${abrev}`;
+  };
   if (regime.match(/République/ui)) {
-    const numeroRepublique = trouverNombreDansOrdinal(regime);
-    return `${formatOrdinal(numToSmallRoman(numeroRepublique), 'F')} Rép.`;
+    return fmt('Rép.', 'F');
   } else if (regime.match(/Restauration/ui)) {
-    const numeroRestauration = trouverNombreDansOrdinal(regime);
-    return `${formatOrdinal(numToSmallRoman(numeroRestauration), 'F')} Rest.`;
+    return fmt('Rest.', 'F');
+  } else if (regime.match(/Empire/ui)) {
+    return fmt('Emp.', 'M');
   } else {
     return regime;
   }
 }
 
-function formatInstance(instance='') {
+function formatInstance(instance = '') {
   instance = instance.replace(/Assemblée nationale/ui, 'A.N.'); // https://www.youtube.com/watch?v=jwMFYcXjTbQ
   instance = instance.replace(/Chambre des députés des départements/ui, 'Chambre des députés des dépt.');
   instance = instance.replace(/Convention nationale/ui, 'Conv. nat.');
-  instance = instance.replace(/constituante/ui, 'const.');
-  instance = instance.replace(/législative/ui, 'législ.');
+  instance = instance.replace(/constituante?/ui, 'const.');
+  instance = instance.replace(/législati(ve|f)/ui, 'législ.');
+  instance = instance.replace(/nationale?/ui, 'nat.');
   return instance;
 }
 
-function formatLégislature(leg) {
+function formatLégislature(leg = '') {
   leg = leg.replace(/législature/ui, 'lég.');
   return leg;
 }
@@ -83,19 +88,18 @@ function formatLégislature(leg) {
  * @param {Mandat} mandat
  */
 function getOccupationPolitique(mandat) {
-  if (mandat.regimePolitique.match(/Révolution/ui)) {
-    // https://www2.assemblee-nationale.fr/sycomore/fiche/(num_dept)/14944
-    return {
-      regime: formatRegime('Révolution'),
-      instance: formatInstance(mandat.legislature), // yes, it's weird but it's like that
-    };
-  } else {
+  if (mandat.regimePolitique.match(/ - /ui)) {
     const [regime, instance] = mandat.regimePolitique.split(' - ');
     const legislature = mandat.legislature;
     return {
       regime: formatRegime(regime),
       instance: formatInstance(instance),
       legislature: formatLégislature(legislature),
+    };
+  } else {
+    return {
+      regime: formatRegime(mandat.regimePolitique),
+      instance: formatInstance(mandat.legislature), // yes, it's weird but it's like that
     };
   }
 }
@@ -137,16 +141,16 @@ function deputeToString(depute) {
 
       const { regime, instance, legislature } = getOccupationPolitique(mandat);
 
-      str += '• '; // puce
+      str += '•'; // puce
       if (regime && instance) {
         if (legislature) {
-          str += `${regime} (${instance}) — ${legislature}`;
+          str += ` ${regime} (${instance}), ${legislature}`;
         } else {
-          str += `${regime} (${instance})`;
+          str += ` ${regime} (${instance})`;
         }
-      } else {
-      // fallback
-        str += [regime, legislature, instance].filter(Boolean).join(', ') || '??';
+      } else if (regime || legislature || instance) {
+        // fallback if at least one field
+        str += ' ' + [regime, legislature, instance].filter(Boolean).join(', ');
       }
 
       if (anneeDebut && anneeDebut === anneeFin) { // mandat d'un an
