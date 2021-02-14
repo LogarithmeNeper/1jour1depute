@@ -103,11 +103,13 @@ async function mainRedis() {
 }
 
 
-if (process.argv[2] === 'redis') {
-  mainRedis().catch(console.error);
-} else if (process.argv[2] === 'fs') {
-  main().catch(console.error);
-} else {
-  console.log('Usage: node fetch-ids.js <storage>');
-  console.log('       <storage>: redis | fs');
-}
+// if (process.argv[2] === 'redis') {
+//   mainRedis().catch(console.error);
+// } else if (process.argv[2] === 'fs') {
+//   main().catch(console.error);
+// } else {
+//   console.log('Usage: node fetch-ids.js <storage>');
+//   console.log('       <storage>: redis | fs');
+// }
+
+module.exports = { main, mainRedis };
