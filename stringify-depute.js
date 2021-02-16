@@ -167,17 +167,17 @@ function deputeToString(depute) {
       str += '\n';
 
       if (mandat.groupe) {
-        str += `  · Groupe : ${mandat.groupe}\n`;
+        str += `  ⁃ Groupe : ${mandat.groupe}\n`;
       }
       if (mandat.departement) {
-        str += `  · Département : ${mandat.departement}\n`;
+        str += `  ⁃ Département : ${mandat.departement}\n`;
       }
 
-      str = str.trim() + '\n'; // space
+      str = str.trim() + '\n\n'; // space
     }
   }
 
-  str += '\n\n';
+  str += '\n';
   str += `Source ${depute.hasBio ? 'et biographie(s) ' : ''}: ${depute.bdUrl}`;
   str += '\n';
 
