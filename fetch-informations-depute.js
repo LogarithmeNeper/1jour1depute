@@ -97,7 +97,7 @@ function getMandats(document) {
     const mandat = extractMandatFromElement(el);
     mandats.push(mandat);
   }
-  return mandats.sort((a, b) => b.anneeDebut - a.anneeDebut); // dans l'ordre antichronologique
+  return mandats.reverse(); // dans l'ordre antichronologique
 }
 
 /**
