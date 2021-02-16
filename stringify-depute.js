@@ -56,9 +56,12 @@ function numToSmallRoman(num) {
 function formatRegime(regime = '') {
   const fmt = (abrev, genre) => {
     const numero = trouverNombreDansOrdinal(regime);
+    if (numero === undefined) { return regime; } // failsafe
     return `${formatOrdinal(numToSmallRoman(numero), genre)} ${abrev}`;
   };
-  if (regime.match(/République/ui)) {
+  if (regime.match(/Gouvernement provisoire/ui)) {
+    return 'GPRF';
+  } else if (regime.match(/République/ui)) {
     return fmt('Rép.', 'F');
   } else if (regime.match(/Restauration/ui)) {
     return fmt('Rest.', 'F');
