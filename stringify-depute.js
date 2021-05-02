@@ -228,7 +228,7 @@ function splitStringToTweets(str) {
     }
   }
 
-  return tweetTexts.map(s => s.slice(0, 280)); // safety
+  return tweetTexts;
 }
 
 function deputeToTweets(depute) {
