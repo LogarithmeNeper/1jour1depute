@@ -9,13 +9,28 @@ const { getDeputeAsObject } = require('./fetch-informations-depute');
 const { deputeToTweets } = require('./stringify-depute');
 const { API } = require('./api');
 
-const now = new Date();
-const target = new Date();
-target.setUTCHours(10, 0, 0);
-
-const dt = ((+now) - (+target)) / 1000;
-const shouldRun = Math.abs(dt) <= (5 * 60);
+const now = changeTimezone(new Date(), 'Europe/Paris');
+const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+const shouldRun = time > '10:57' && time < '11:03';
 const dryRun = (process.argv[2] === 'dry-run');
+
+if (shouldRun || dryRun) {
+  if (dryRun) {
+    console.log(`shouldRun = ${shouldRun}`);
+  }
+  main(dryRun).catch(err => {
+    console.error('ERROR');
+    console.error(err);
+    process.exit(12);
+  });
+}
+
+// https://stackoverflow.com/a/53652131
+function changeTimezone(date, ianatz) {
+  const invdate = new Date(date.toLocaleString('en-US', { timeZone: ianatz }));
+  const diff = date.getTime() - invdate.getTime();
+  return new Date(date.getTime() - diff);
+}
 
 function isDeputeValid(depute) {
   return (depute.mandats.length > 0);
@@ -59,12 +74,4 @@ async function main(dryRun = false, nRetries = 3) {
   }
 
   console.log('done.');
-}
-
-if (shouldRun || dryRun) {
-  main(dryRun).catch(err => {
-    console.error('ERROR');
-    console.error(err);
-    process.exit(12);
-  });
 }
